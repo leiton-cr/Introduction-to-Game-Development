@@ -13,5 +13,11 @@ function love.update(dt)
 end
 
 function love.draw()
-    love.graphics.printf('Hello PONG!', 0, WINDOW_HEIGHT / 2 - 6, WINDOW_WIDTH, 'center')
+    love.graphics.printf(
+        'Hello PONG!', 
+        0,                      -- Inicio en X 
+        WINDOW_HEIGHT / 2 - 6,  -- Inicio en y
+        WINDOW_WIDTH,           -- Pixeles para centrar
+        'center'                -- Posicion
+    )
 end
