@@ -92,12 +92,31 @@ function love.update(dt)
             ball.dy = -ball.dy
         end
 
+        if ball.x < 0 then
+            servingPlayer = 1
+            player2.score =  player2.score + 1
+            ball:reset()
+            gameState = 'serve'
+        end
+
+        if ball.x > VIRTUAL_WIDTH then
+            servingPlayer = 2
+            player1.score =  player1.score + 1
+            ball:reset()
+            gameState = 'serve'
+        end
+
+        player1:update(dt)
+        player2:update(dt)
 
         ball:update(dt)
     end
 
-    player1:update(dt)
-    player2:update(dt)
+    if gameState == 'serve' then
+       
+    end
+
+    
    
 end
 
@@ -111,14 +130,13 @@ function love.keypressed(key)
         return
     end
 
-    if gameState == 'start' then
+    if gameState == 'start' or gameState == 'serve' or gameState == 'pause' then
         gameState = 'play'
         return
     end
 
-    gameState = 'start'
+    gameState = 'pause'
 
-    ball:reset()
 end
 
 -- Renderizado.
@@ -129,8 +147,21 @@ function love.draw()
     love.graphics.clear(40, 45, 52, 0.3)
 
     love.graphics.setFont(smallFont);
-    love.graphics.printf('PONG!', 0, 10 - 6, VIRTUAL_WIDTH, 'center')
     
+    if gameState == 'play' then
+        love.graphics.printf('PONG!', 0, 10 - 6, VIRTUAL_WIDTH, 'center')
+    end
+    
+    if gameState == 'start' then
+        love.graphics.printf('Starting game!', 0, 10 - 6, VIRTUAL_WIDTH, 'center')
+        love.graphics.printf('Press enter to serve!', 0, 20 - 6, VIRTUAL_WIDTH, 'center')
+    end
+
+    if gameState == 'serve' then
+        love.graphics.printf('Point!', 0, 10 - 6, VIRTUAL_WIDTH, 'center')
+        love.graphics.printf('Player ' .. servingPlayer .. ' Press enter to serve!', 0, 20 - 6, VIRTUAL_WIDTH, 'center')
+    end
+
     
     -- Paddles
     player1:render()
