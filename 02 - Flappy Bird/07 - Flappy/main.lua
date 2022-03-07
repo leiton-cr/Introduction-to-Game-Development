@@ -10,6 +10,7 @@ class = require 'libraries/class'
 require 'utils/Debug'
 require 'classes/Bird'
 require 'classes/Pipe'
+require 'classes/PipePair'
 
 local scoreFont = love.graphics.newFont('assets/fonts/flappy.ttf', 64)
 local images = {
@@ -45,6 +46,9 @@ local bird = Bird()
 local pipes = {}
 
 local timer = 0
+
+local lastY = -PIPE_HEIGHT + math.random(80) + 20
+
 
 local debug = Debug()
 
@@ -94,7 +98,11 @@ function love.update(dt)
 
 
     if timer > 2 then
-        table.insert(pipes, Pipe())
+
+        local y = math.max(-PIPE_HEIGHT + 10, 
+        math.min(lastY + math.random(-20, 20), VIRTUAL_HEIGHT - 90 - PIPE_HEIGHT))
+    lastY = y
+        table.insert(pipes, PipePair(y))
         timer = 0
     end
 
@@ -103,13 +111,21 @@ function love.update(dt)
     for k, v in pairs(pipes) do
         v:update(dt)
 
-        if v.x < -v.width then
+        if v.x + 32 < bird.x and v.pointed == false then
+            bird.score = bird.score + 1
+            v.pointed = true 
+        end
+
+        if v.x < -64 then
             table.remove(pipes, k)
         end
     end
    
 
     love.keyboard.keysPressed = {}
+
+
+
 
 end
 
