@@ -27,7 +27,7 @@ function love.load()
     )
 
     --[[ Initial state ]]
-    gStateMachine:change("title")
+    gStateMachine:change("paddle_select")
 end
 
 function love.keypressed(key)
