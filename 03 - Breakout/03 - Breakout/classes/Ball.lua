@@ -1,5 +1,7 @@
 Ball = class {}
 
+local BALL_SIZE = 8
+
 function Ball:init()
     self.level = 0
 
@@ -9,8 +11,6 @@ function Ball:init()
     self.dx = 0;
     self.dy = 0;
 
-    self.size = 8;
-
     self:setSkin()
 end
 
@@ -18,13 +18,13 @@ function Ball:render()
     love.graphics.draw(TEXTURES.breakout,self.ballQuad,self.x,self.y)
 end
 
-function Ball:levelUp()
-    self.level = self.level + 1 % 6
+function Ball:levelUp(n)
+    self.level = math.min(self.level + (n or 1), 6)
     self:setSkin()
 end
 
-function Ball:levelDown()
-    self.level = math.min(-1, self.level -1)
+function Ball:levelDown(n)
+    self.level = math.max(0, self.level - (n or 1))
     self:setSkin()
 end
 
@@ -40,8 +40,8 @@ function Ball:setSkin()
     self.ballQuad = love.graphics.newQuad(
         self:getSkinRow(),      -- Inicio en X
         self:getSkinCol(),      -- Inicio en Y
-        self.size,              -- Ancho
-        self.size,                             
+        BALL_SIZE,              -- Ancho
+        BALL_SIZE,                             
         TEXTURES.breakout
     )
 end

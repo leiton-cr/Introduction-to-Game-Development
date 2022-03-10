@@ -22,7 +22,8 @@ function love.load()
             ["title"] = function() return TitleState() end,
             ["paddle_select"] = function() return PaddleSelectState() end,
             ["high_scores"] = function() return HighScoreState() end,
-            ["play"] = function() return PlayState() end
+            ["play"] = function() return PlayState() end,
+            ["serve"] = function() return ServeState() end
         }
     )
 

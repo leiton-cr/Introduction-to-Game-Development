@@ -6,6 +6,8 @@ require 'utils/debug'
 
 require 'classes/StateMachine'
 require 'classes/Paddle'
+require 'classes/Brick'
+require 'classes/Ball'
 
 require 'states/BaseState'
 require 'states/TitleState'

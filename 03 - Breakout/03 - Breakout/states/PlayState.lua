@@ -5,7 +5,7 @@ PlayState = class {
 function PlayState:init()
     self.paused = false
 
-    
+    self.brick = Brick()
 end
 
 function PlayState:enter(params)
@@ -21,8 +21,8 @@ function PlayState:update(dt)
     if (love.keyboard.wasPressed('space')) then
         self.paused = not self.paused
 
-       
-       
+        self.brick.level = self.brick.level +1
+        self.brick:setSkin() 
 
     end
 
@@ -41,6 +41,6 @@ function PlayState:render()
         love.graphics.printf('(Press space to continue)', 0, VIRTUAL_HEIGTH / 2, VIRTUAL_WIDTH, 'center')
     end
 
-    
+    self.brick:render()
     self.paddle:render()
 end
