@@ -102,3 +102,10 @@ function Paddle:healthDown()
         self:setSkin()
     end
 end
+
+function Paddle:healthUp()
+    SOUNDS.recover:play()
+    self.health = math.min(3, self.health + 1)
+    self:setWidth()
+    self:setSkin()
+end

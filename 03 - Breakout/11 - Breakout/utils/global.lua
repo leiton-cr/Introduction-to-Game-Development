@@ -25,6 +25,7 @@ SOUNDS = {
     ['brick_hit_2'] = love.audio.newSource('assets/sounds/brick_hit_2.wav', 'static'),
     ['wall_hit'] = love.audio.newSource('assets/sounds/wall_hit.wav', 'static'),
     ['hurt'] = love.audio.newSource('assets/sounds/hurt.wav', 'static'),
+    ['recover'] = love.audio.newSource('assets/sounds/recover.wav', 'static'),
 
     ['music'] = love.audio.newSource('assets/sounds/music.wav', 'stream')
 }

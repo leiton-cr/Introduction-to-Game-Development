@@ -13,6 +13,7 @@ function ServeState:enter(params)
     self.ball = params.ball or self.ball
     self.level = params.level or 1
     self.paddle.y = VIRTUAL_HEIGTH - 32
+    self.currentBriks = params.currentBriks
 end
 
 function ServeState:update(dt)
@@ -25,7 +26,8 @@ function ServeState:update(dt)
             paddle = self.paddle, 
             ball = self.ball,
             bricks = self.bricks,
-            level = self.level
+            level = self.level,
+            currentBriks = self.currentBriks
         })
     end
 

@@ -12,7 +12,10 @@ function PlayState:enter(params)
     self.bricks = params.bricks
     self.level = params.level
 
-    self.currentBriks = #self.bricks
+    self.recoveryTreshhold = self.level * 5000;
+    self.recoveryObtained = 0;
+
+    self.currentBriks = params.currentBriks or #self.bricks
 end
 
 function PlayState:update(dt)
@@ -51,7 +54,18 @@ function PlayState:update(dt)
                 self.currentBriks = self.currentBriks - 1 
             end
 
-            self.paddle.score = self.paddle.score + ((brick.tier + 1)  * 200 + (brick.color + 1) * 25)
+            local scored = ((brick.tier + 1)  * 200 + (brick.color + 1) * 25)
+            self.paddle.score = self.paddle.score + scored
+            self.recoveryObtained = self.recoveryObtained + scored;
+
+            if self.recoveryObtained >= self.recoveryTreshhold then
+                self.recoveryObtained = self.recoveryObtained - self.recoveryTreshhold;
+
+               
+                self.paddle:healthUp()
+                    
+               
+            end
 
             if self.ball.x + 2 < brick.x and self.ball.dx > 0 then
                 self.ball.dx = -self.ball.dx
@@ -85,8 +99,9 @@ function PlayState:update(dt)
             gStateMachine:change('serve', {
                 paddle = self.paddle,
                 ball = self.ball,
-                bricks =self.bricks, 
-                level = self.level
+                bricks = self.bricks, 
+                level = self.level,
+                currentBriks = self.currentBriks
             })
         else
             gStateMachine:change('game_over', {
@@ -98,7 +113,6 @@ function PlayState:update(dt)
     end
 
     if self.currentBriks == 0 then
-
         gStateMachine:change('victory', {
             paddle = self.paddle,
             ball = self.ball,
@@ -123,8 +137,8 @@ function PlayState:render()
 
     if self.paused then
         love.graphics.setFont(FONTS.l)
-        love.graphics.printf('GAME PAUSED!', 0, VIRTUAL_HEIGTH / 2 - 32, VIRTUAL_WIDTH, 'center')
+        love.graphics.printf('GAME PAUSED!' .. self.recoveryObtained, 0, VIRTUAL_HEIGTH / 2 - 32, VIRTUAL_WIDTH, 'center')
         love.graphics.setFont(FONTS.s)
-        love.graphics.printf('(Press space to continue)', 0, VIRTUAL_HEIGTH / 2, VIRTUAL_WIDTH, 'center')
+        love.graphics.printf('(Press space to continue)' .. self.currentBriks, 0, VIRTUAL_HEIGTH / 2, VIRTUAL_WIDTH, 'center')
     end
 end
